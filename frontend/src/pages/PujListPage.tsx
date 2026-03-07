@@ -1,15 +1,25 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { TopStepperNav } from "../components/TopStepperNav";
+import { PageHeader } from "../components/PageHeader";
 import { fetchPujs } from "../api/puj";
 import type { PujRoute } from "../types/puj";
 
+function SkeletonGrid() {
+  return (
+    <div className="puj-skeleton-grid">
+      {Array.from({ length: 12 }).map((_, i) => (
+        <div key={i} className="skeleton puj-skeleton-item" />
+      ))}
+    </div>
+  );
+}
+
 export function PujListPage() {
-  const [query, setQuery] = useState("");
-  const [pujs, setPujs] = useState<PujRoute[]>([]);
+  const [query, setQuery]   = useState("");
+  const [pujs, setPujs]     = useState<PujRoute[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const [error, setError]   = useState<string | null>(null);
+  const navigate            = useNavigate();
 
   useEffect(() => {
     let cancelled = false;
@@ -28,20 +38,18 @@ export function PujListPage() {
     }
 
     load();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [query]);
 
   return (
     <div className="puj-page">
-      <TopStepperNav active="PUJ List" />
+      <PageHeader crumbs={[{ label: "Home", to: "/" }, { label: "PUJ Routes" }]} />
 
-      <main className="puj-page__content">
+      <div className="puj-page__content">
         <section className="puj-card">
           <header className="puj-card__header">
             <div>
-              <h2 className="puj-card__title">PUJ Codes</h2>
+              <h2 className="puj-card__title">PUJ Routes</h2>
               <p className="puj-card__subtitle">
                 Browse jeepney routes and tap a code to view full details.
               </p>
@@ -53,17 +61,13 @@ export function PujListPage() {
               <input
                 type="text"
                 className="puj-search__input"
-                placeholder="Search by code, origin or destination"
+                placeholder="Search by code, origin or destination…"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
             </div>
 
-            {loading && (
-              <p className="puj-status puj-status--info">
-                Loading PUJ routes…
-              </p>
-            )}
+            {loading && <SkeletonGrid />}
 
             {error && (
               <p className="puj-status puj-status--error">{error}</p>
@@ -88,9 +92,7 @@ export function PujListPage() {
                       {puj.origin} → {puj.destination}
                     </span>
                     {puj.otherRoutes && (
-                      <span className="puj-item__meta">
-                        {puj.otherRoutes}
-                      </span>
+                      <span className="puj-item__meta">{puj.otherRoutes}</span>
                     )}
                   </button>
                 ))}
@@ -98,7 +100,7 @@ export function PujListPage() {
             )}
           </div>
         </section>
-      </main>
+      </div>
     </div>
   );
 }

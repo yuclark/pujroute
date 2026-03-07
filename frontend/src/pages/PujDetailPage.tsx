@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { TopStepperNav } from "../components/TopStepperNav";
+import { PageHeader } from "../components/PageHeader";
 import { fetchPujDetail } from "../api/puj";
 import type { PujRoute } from "../types/puj";
 
 export function PujDetailPage() {
-  const { code } = useParams<{ code: string }>();
-  const navigate = useNavigate();
+  const { code }    = useParams<{ code: string }>();
+  const navigate    = useNavigate();
 
-  const [puj, setPuj] = useState<PujRoute | null>(null);
+  const [puj, setPuj]       = useState<PujRoute | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError]   = useState<string | null>(null);
 
   useEffect(() => {
     if (!code) return;
@@ -20,7 +20,7 @@ export function PujDetailPage() {
       setLoading(true);
       setError(null);
       try {
-        const data = await fetchPujDetail(code);
+        const data = await fetchPujDetail(code!); // ✅ non-null assert — guarded above
         if (!cancelled) setPuj(data);
       } catch {
         if (!cancelled) setError("Failed to load PUJ details.");
@@ -30,17 +30,21 @@ export function PujDetailPage() {
     }
 
     load();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [code]);
 
   return (
     <div className="puj-page">
-      <TopStepperNav active="PUJ Details" />
+      <PageHeader
+        crumbs={[
+          { label: "Home", to: "/" },
+          { label: "PUJ Routes", to: "/pujs" },
+          { label: code ?? "…" },
+        ]}
+      />
 
-      <main className="puj-page__content">
-        <section className="puj-card puj-detail">
+      <div className="puj-page__content">
+        <section className="puj-card">
           <header className="puj-card__header puj-detail__header">
             <button
               type="button"
@@ -50,19 +54,19 @@ export function PujDetailPage() {
               ← Back to list
             </button>
 
-            <div className="puj-detail__heading">
+            <div>
               <span className="puj-detail__label">Jeepney Route Code</span>
-              <h1 className="puj-detail__code">
-                {puj?.code ?? code ?? "—"}
-              </h1>
+              <h1 className="puj-detail__code">{puj?.code ?? code ?? "—"}</h1>
             </div>
           </header>
 
           <div className="puj-card__body">
             {loading && (
-              <p className="puj-status puj-status--info">
-                Loading route details…
-              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div className="skeleton" style={{ height: 70, borderRadius: 10 }} />
+                <div className="skeleton" style={{ height: 70, borderRadius: 10 }} />
+                <div className="skeleton" style={{ height: 100, borderRadius: 10 }} />
+              </div>
             )}
 
             {error && (
@@ -76,34 +80,28 @@ export function PujDetailPage() {
                     <p className="puj-detail__info-label">Origin</p>
                     <p className="puj-detail__info-text">{puj.origin}</p>
                   </div>
-
                   <div className="puj-detail__info-block">
                     <p className="puj-detail__info-label">Destination</p>
-                    <p className="puj-detail__info-text">
-                      {puj.destination}
-                    </p>
+                    <p className="puj-detail__info-text">{puj.destination}</p>
                   </div>
                 </section>
 
                 {puj.otherRoutes && (
                   <section className="puj-detail__section">
                     <h3 className="puj-detail__section-title">
-                      Other areas / Passing through
+                      Passing through / Other areas
                     </h3>
-                    <p className="puj-detail__section-text">
-                      {puj.otherRoutes}
-                    </p>
+                    <p className="puj-detail__section-text">{puj.otherRoutes}</p>
                   </section>
                 )}
 
                 <section className="puj-detail__section">
-                  <h3 className="puj-detail__section-title">
-                    Route overview
-                  </h3>
+                  <h3 className="puj-detail__section-title">Route overview</h3>
                   <p className="puj-detail__section-text">
-                    This screen can later include stop-by-stop instructions,
-                    route maps, and fare breakdowns. For now it shows the basic
-                    origin and destination for code <strong>{puj.code}</strong>.
+                    Stop-by-stop instructions, route maps, and fare breakdowns
+                    will be available here soon. Currently showing the basic
+                    origin and destination for route{" "}
+                    <strong>{puj.code}</strong>.
                   </p>
                 </section>
 
@@ -113,9 +111,8 @@ export function PujDetailPage() {
                     className="puj-detail__primary-btn"
                     disabled
                   >
-                    Route map (coming soon)
+                    🗺 Route map (coming soon)
                   </button>
-
                   <button
                     type="button"
                     onClick={() => navigate("/pujs")}
@@ -128,7 +125,7 @@ export function PujDetailPage() {
             )}
           </div>
         </section>
-      </main>
+      </div>
     </div>
   );
 }

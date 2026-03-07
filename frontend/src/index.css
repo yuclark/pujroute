@@ -1,68 +1,49 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap");
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@theme {
+  /* ── Maroon palette ── */
+  --color-maroon-50:  #fdf2f3;
+  --color-maroon-100: #fce4e6;
+  --color-maroon-200: #f9c5c9;
+  --color-maroon-300: #f49097;
+  --color-maroon-400: #ec5562;
+  --color-maroon-500: #df2535;
+  --color-maroon-600: #bc1424;
+  --color-maroon-700: #9b1020;
+  --color-maroon-800: #80111f;
+  --color-maroon-900: #6e1220;
+  --color-maroon-950: #3d050d;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* ── Gold palette ── */
+  --color-gold-50:  #fffbeb;
+  --color-gold-100: #fef3c7;
+  --color-gold-200: #fde68a;
+  --color-gold-300: #fcd34d;
+  --color-gold-400: #f5c518;
+  --color-gold-500: #d4af37;
+  --color-gold-600: #b8960c;
+  --color-gold-700: #92720a;
+  --color-gold-800: #785c0e;
+  --color-gold-900: #654c11;
+
+  /* ── Fonts ── */
+  --font-jakarta: "Plus Jakarta Sans", sans-serif;
+  --font-inter:   "Inter", sans-serif;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  font-family: var(--font-inter);
+  background-color: #f8f7f5;
+  color: #111827;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+h1, h2, h3, h4 {
+  font-family: var(--font-jakarta);
 }
