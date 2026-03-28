@@ -11,7 +11,7 @@ export interface RegisterRequest {
 }
 
 export interface AuthUser {
-  id: string;    // ✅ Supabase uses string UUID, not number
+  id: string;
   name: string;
   email: string;
 }

@@ -2,7 +2,9 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { PujListPage }   from "./pages/PujListPage";
 import { PujDetailPage } from "./pages/PujDetailPage";
 import { LoginPage }     from "./pages/LoginPage";
+import { HomePage }      from "./pages/HomePage";
 import { RegisterPage }  from "./pages/RegisterPage";
+import { ProfilePage }   from "./pages/ProfilePage";
 import { SiteHeader }    from "./components/SiteHeader";
 import { BottomNav }     from "./components/BottomNav";
 import { AuthProvider, useAuth } from "./context/AuthContext";
@@ -16,22 +18,25 @@ function PrivateRoute({ children }: { children: React.ReactNode }) {
 function AppRoutes() {
   return (
     <Routes>
-      {/* ✅ First page on load */}
-      <Route path="/" element={<Navigate to="/login" replace />} />
-
+      {/* ── Public ── */}
+      <Route path="/"         element={<Navigate to="/login" replace />} />
       <Route path="/login"    element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
 
-      <Route path="/pujs" element={
-        <PrivateRoute>
-          <div className="app-shell">
-            <SiteHeader />
-            <main className="app-main"><PujListPage /></main>
-            <BottomNav />
-          </div>
-        </PrivateRoute>
+      {/* ── Self-contained (own navbar) ── */}
+      <Route path="/home" element={
+        <PrivateRoute><HomePage /></PrivateRoute>
       } />
 
+      <Route path="/pujs" element={
+        <PrivateRoute><PujListPage /></PrivateRoute>
+      } />
+
+      <Route path="/profile" element={
+        <PrivateRoute><ProfilePage /></PrivateRoute>
+      } />
+
+      {/* ── App shell (SiteHeader + BottomNav) ── */}
       <Route path="/pujs/:code" element={
         <PrivateRoute>
           <div className="app-shell">
@@ -41,6 +46,9 @@ function AppRoutes() {
           </div>
         </PrivateRoute>
       } />
+
+      {/* ── Catch-all ── */}
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 }

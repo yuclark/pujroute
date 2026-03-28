@@ -8,7 +8,6 @@ export async function login({ email, password }: LoginRequest) {
   });
 
   if (error) {
-    // Map Supabase error messages to user-friendly ones
     if (error.message.includes("Invalid login credentials")) {
       throw { message: "Incorrect email or password." };
     }
@@ -36,7 +35,7 @@ export async function register({ name, email, password }: RegisterRequest) {
     email,
     password,
     options: {
-      data: { name }, // stores name in user_metadata
+      data: { name },
     },
   });
 
@@ -50,8 +49,6 @@ export async function register({ name, email, password }: RegisterRequest) {
     throw { message: error.message };
   }
 
-  // Supabase sends a confirmation email by default
-  // data.user exists but session may be null until email is confirmed
   if (data.session) {
     return {
       token: data.session.access_token,
@@ -63,7 +60,6 @@ export async function register({ name, email, password }: RegisterRequest) {
     };
   }
 
-  // Email confirmation required — signal the page to show a message
   throw {
     confirmed: false,
     message: "Account created! Check your email to confirm your account before logging in.",
@@ -72,4 +68,62 @@ export async function register({ name, email, password }: RegisterRequest) {
 
 export async function logout() {
   await supabase.auth.signOut();
+}
+
+// ── Profile ──────────────────────────────────────────
+
+export async function getProfile(userId: string) {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", userId)
+    .single();
+
+  if (error) throw { message: error.message };
+  return data;
+}
+
+export async function updateProfile(userId: string, updates: {
+  full_name?: string;
+  username?:  string;
+}) {
+  const { error } = await supabase
+    .from("profiles")
+    .update({ ...updates, updated_at: new Date().toISOString() })
+    .eq("id", userId);
+
+  if (error) throw { message: error.message };
+}
+
+// ── Password ─────────────────────────────────────────
+
+export async function updatePassword(newPassword: string) {
+  const { error } = await supabase.auth.updateUser({ password: newPassword });
+  if (error) throw { message: error.message };
+}
+
+// ── Avatar ───────────────────────────────────────────
+
+export async function uploadAvatar(userId: string, file: File) {
+  const ext  = file.name.split(".").pop();
+  const path = `${userId}/avatar.${ext}`;
+
+  const { error: uploadError } = await supabase.storage
+    .from("avatars")
+    .upload(path, file, { upsert: true });
+
+  if (uploadError) throw { message: uploadError.message };
+
+  const { data } = supabase.storage
+    .from("avatars")
+    .getPublicUrl(path);
+
+  const { error: updateError } = await supabase
+    .from("profiles")
+    .update({ avatar_url: data.publicUrl, updated_at: new Date().toISOString() })
+    .eq("id", userId);
+
+  if (updateError) throw { message: updateError.message };
+
+  return data.publicUrl;
 }

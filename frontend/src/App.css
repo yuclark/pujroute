@@ -24,9 +24,9 @@ body {
 }
 
 .app-shell {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 /* ─── Site header ────────────────────────────────────────── */
@@ -83,7 +83,8 @@ body {
 /* ─── Page layout ────────────────────────────────────────── */
 .app-main {
   flex: 1;
-  padding-bottom: calc(var(--nav-height) + 12px);
+  width: 100%;        /* ✅ no max-width constraining it */
+  padding: 0;         /* ✅ let the page handle its own padding */
 }
 
 .puj-page__content {
