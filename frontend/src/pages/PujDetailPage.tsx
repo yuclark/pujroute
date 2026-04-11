@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { PageHeader } from "../components/PageHeader";
-import { fetchPujDetail } from "../api/puj";
-import type { PujRoute } from "../types/puj";
+import { PageHeader } from "../shared/components/PageHeader";
+import { fetchPujDetail } from "../shared/api/puj";
+import type { PujRoute } from "../shared/types/puj";
 
 export function PujDetailPage() {
   const { code }    = useParams<{ code: string }>();

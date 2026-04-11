@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchPujs } from "../api/puj";
+import { fetchPujs } from "../shared/api/puj";
 import type { PujRoute } from "../types/puj";
 import "./PujListPage.css";
 

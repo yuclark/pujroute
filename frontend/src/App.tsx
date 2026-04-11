@@ -5,9 +5,9 @@ import { LoginPage }     from "./pages/LoginPage";
 import { HomePage }      from "./pages/HomePage";
 import { RegisterPage }  from "./pages/RegisterPage";
 import { ProfilePage }   from "./pages/ProfilePage";
-import { SiteHeader }    from "./components/SiteHeader";
-import { BottomNav }     from "./components/BottomNav";
-import { AuthProvider, useAuth } from "./context/AuthContext";
+import { SiteHeader }    from "./shared/components/SiteHeader";
+import { BottomNav }     from "./shared/components/BottomNav";
+import { AuthProvider, useAuth } from "./shared/context/AuthContext";
 import "./App.css";
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
@@ -18,12 +18,10 @@ function PrivateRoute({ children }: { children: React.ReactNode }) {
 function AppRoutes() {
   return (
     <Routes>
-      {/* ── Public ── */}
       <Route path="/"         element={<Navigate to="/login" replace />} />
       <Route path="/login"    element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
 
-      {/* ── Self-contained (own navbar) ── */}
       <Route path="/home" element={
         <PrivateRoute><HomePage /></PrivateRoute>
       } />
@@ -36,7 +34,6 @@ function AppRoutes() {
         <PrivateRoute><ProfilePage /></PrivateRoute>
       } />
 
-      {/* ── App shell (SiteHeader + BottomNav) ── */}
       <Route path="/pujs/:code" element={
         <PrivateRoute>
           <div className="app-shell">
@@ -47,7 +44,6 @@ function AppRoutes() {
         </PrivateRoute>
       } />
 
-      {/* ── Catch-all ── */}
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );

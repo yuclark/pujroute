@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { register } from "../api/auth";
-import { useAuth } from "../context/AuthContext";
+import { register } from "../shared/api/auth";
+import { useAuth } from "../shared/context/AuthContext";
 
 interface FieldErrors {
   name?: string;

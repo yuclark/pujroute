@@ -1,6 +1,4 @@
-package com.project.pujroute.data;
-
-import com.project.pujroute.model.PujRoute;
+package com.project.pujroute.puj.shared;
 
 import java.util.ArrayList;
 import java.util.List;

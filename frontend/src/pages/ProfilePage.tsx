@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../shared/context/AuthContext";
 import {
   getProfile,
   updateProfile,
   updatePassword,
   uploadAvatar,
-} from "../api/auth";
+} from "../shared/api/auth";
 import "./ProfilePage.css";
 
 export function ProfilePage() {
