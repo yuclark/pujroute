@@ -31,3 +31,24 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# ── Environment & Secrets (CRITICAL) ──
+*.env
+.env
+application-local.properties
+application-secret.properties
+application-prod.properties
+
+# ── Compiled & Packaged ──
+*.jar
+*.war
+*.class
+
+# ── Logs ──
+*.log
+logs/
+spring.log
+
+# ── OS Files ──
+.DS_Store
+Thumbs.db
