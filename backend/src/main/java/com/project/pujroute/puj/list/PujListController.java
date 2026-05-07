@@ -1,6 +1,13 @@
+package com.project.pujroute.puj.list;
+
+import com.project.pujroute.puj.shared.PujRoute;
+import org.springframework.web.bind.annotation.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/pujs")
-// ✅ removed @CrossOrigin
 public class PujListController {
 
     private final PujListService pujListService;
