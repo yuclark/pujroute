@@ -46,7 +46,7 @@ export function LoginPage() {
     try {
       const { token, user } = await login({ email, password });
       setAuth(token, user);
-      navigate("/pujs", { replace: true });
+      navigate("/home", { replace: true });
     } catch (err: any) {
       if (err.status === 401)       setGlobalError("Incorrect email or password.");
       else if (err.status === 404)  setGlobalError("No account found with that email.");
