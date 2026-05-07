@@ -5,7 +5,7 @@ export function SiteHeader() {
         <div className="site-header__brand">
           <div className="site-header__icon">🚌</div>
           <div>
-            <div className="site-header__name">PujRoute</div>
+            <div className="site-header__name">PUJ Route</div>
             <div className="site-header__tagline">Cebu Jeepney Navigator</div>
           </div>
         </div>

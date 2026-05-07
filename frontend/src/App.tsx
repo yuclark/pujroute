@@ -5,8 +5,6 @@ import { LoginPage }     from "./pages/LoginPage";
 import { HomePage }      from "./pages/HomePage";
 import { RegisterPage }  from "./pages/RegisterPage";
 import { ProfilePage }   from "./pages/ProfilePage";
-import { SiteHeader }    from "./shared/components/SiteHeader";
-import { BottomNav }     from "./shared/components/BottomNav";
 import { AuthProvider, useAuth } from "./shared/context/AuthContext";
 import "./App.css";
 
@@ -37,9 +35,7 @@ function AppRoutes() {
       <Route path="/pujs/:code" element={
         <PrivateRoute>
           <div className="app-shell">
-            <SiteHeader />
             <main className="app-main"><PujDetailPage /></main>
-            <BottomNav />
           </div>
         </PrivateRoute>
       } />

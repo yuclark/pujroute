@@ -3,6 +3,9 @@ export interface PujRoute {
   origin: string;
   destination: string;
   otherRoutes?: string;
+  stops?: string[];
+  baseFare?: number;
+  routeOverview?: string;
 }
 
 export interface PujListResponse {

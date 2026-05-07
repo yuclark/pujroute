@@ -1,8 +1,8 @@
 /* ── Base ── */
 .hp {
   min-height: 100vh;
-  background-color: #FAFAFA;
-  color: #1A1A1A;
+  background: var(--color-bg);
+  color: var(--color-text);
   display: flex;
   flex-direction: column;
 }
@@ -12,10 +12,11 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid #EBEBEB;
+  border-bottom: 1px solid rgba(140, 26, 46, 0.12);
 }
+
 
 .hp-nav__inner {
   max-width: 1100px;
@@ -49,32 +50,33 @@
 .hp-nav__links {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .hp-nav__link {
   background: none;
   border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
   font-size: 14px;
   font-weight: 500;
   font-family: 'Poppins', sans-serif;
-  color: #555;
+  color: var(--color-text);
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
 }
 
 .hp-nav__link:hover {
-  background: #F3F3F3;
-  color: #1A1A1A;
+  background: rgba(140, 26, 46, 0.08);
+  color: var(--color-primary);
 }
 
 .hp-nav__link--active {
-  background: #F5E8EB;
-  color: #8C1A2E;
+  background: rgba(242, 185, 52, 0.16);
+  color: var(--color-primary);
   font-weight: 600;
 }
+
 
 /* ── Hero ── */
 .hp-hero {
@@ -168,7 +170,8 @@
   pointer-events: none;
 }
 
-.hp-search__input {
+.hp-search__input,
+.hp-search__select {
   width: 100%;
   box-sizing: border-box;
   padding: 14px 16px 14px 44px;
@@ -182,14 +185,29 @@
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
 
-.hp-search__input:focus {
+.hp-search__select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.hp-search__input:focus,
+.hp-search__select:focus {
   border-color: #8C1A2E;
   background: #fff;
   box-shadow: 0 0 0 3px rgba(140, 26, 46, 0.1);
 }
 
-.hp-search__input::placeholder {
+.hp-search__input::placeholder,
+.hp-search__select option:first-child {
   color: #C0C0C0;
+}
+
+.hp-search__error {
+  margin-top: 16px;
+  color: #B91C1C;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .hp-search__arrow {

@@ -15,12 +15,12 @@ class PujListService {
         }
         String q = search.toLowerCase();
         return MockPujData.PUJS.stream()
-                .filter(p ->
-                        p.getCode().toLowerCase().contains(q) ||
-                                p.getOrigin().toLowerCase().contains(q) ||
-                                p.getDestination().toLowerCase().contains(q) ||
-                                (p.getVia() != null && !p.getVia().isBlank() && p.getVia().toLowerCase().contains(q))
-                )
+                .filter(p -> p.getCode().toLowerCase().contains(q) ||
+                        p.getOrigin().toLowerCase().contains(q) ||
+                        p.getDestination().toLowerCase().contains(q) ||
+                        (p.getVia() != null && p.getVia().toLowerCase().contains(q)) ||
+                        (p.getStops() != null && p.getStops().stream()
+                                .anyMatch(stop -> stop.toLowerCase().contains(q))))
                 .toList();
     }
 }

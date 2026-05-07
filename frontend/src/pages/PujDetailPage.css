@@ -1,0 +1,70 @@
+/* ── Stop Sequence Highlights ── */
+.puj-detail__legend {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.puj-detail__legend-item {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.puj-detail__legend-item--from {
+  background-color: #e6f4ea;
+  color: #15803d;
+}
+
+.puj-detail__legend-item--to {
+  background-color: #fef2f2;
+  color: #b91c1c;
+}
+
+.puj-detail__stop-item--from {
+  background-color: #e6f4ea;
+  border-left: 4px solid #22c55e;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #15803d;
+}
+
+.puj-detail__stop-item--to {
+  background-color: #fef2f2;
+  border-left: 4px solid #ef4444;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #b91c1c;
+}
+
+.puj-detail__stop-badge {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+}
+
+.puj-detail__stop-badge--from {
+  color: #15803d;
+}
+
+.puj-detail__stop-badge--to {
+  color: #b91c1c;
+}
+
+/* ── Fare Note ── */
+.puj-detail__fare-note {
+  font-size: 0.85rem;
+  color: #6b7280;
+  background-color: #f9f5e7;
+  border-left: 3px solid #d4a017;
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-top: 8px;
+  line-height: 1.5;
+}

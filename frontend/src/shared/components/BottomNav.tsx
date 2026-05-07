@@ -57,10 +57,15 @@ export function BottomNav() {
           PUJs
         </NavLink>
 
-        <button className="bottom-nav__item bottom-nav__item--disabled" type="button" disabled>
+        <NavLink
+          to="/pujs?view=favorites"
+          className={({ isActive }) =>
+            `bottom-nav__item${isActive ? " bottom-nav__item--active" : ""}`
+          }
+        >
           <StarIcon />
           Favorites
-        </button>
+        </NavLink>
 
         <button className="bottom-nav__item bottom-nav__item--disabled" type="button" disabled>
           <GearIcon />
