@@ -183,7 +183,7 @@ export function LoginPage() {
         <div style={{ position: "relative", zIndex: 1 }}>
           <div style={{ height: "1px", background: "linear-gradient(to right, transparent, rgba(201,162,39,0.3), transparent)", marginBottom: "16px" }} />
           <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "11px" }}>
-            © {new Date().getFullYear()} PujRoute · CIT-University · Cebu City
+            © {new Date().getFullYear()} PUJ Route · CIT-University · Cebu City
           </p>
         </div>
       </div>
@@ -208,7 +208,7 @@ export function LoginPage() {
               display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px",
             }}>🚌</div>
             <span style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, color: MAROON, fontSize: "17px" }}>
-              PujRoute
+              PUJ Route
             </span>
           </div>
 

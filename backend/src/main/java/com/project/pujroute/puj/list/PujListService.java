@@ -23,4 +23,28 @@ class PujListService {
                                 .anyMatch(stop -> stop.toLowerCase().contains(q))))
                 .toList();
     }
+
+    // ✅ NEW — bidirectional stop-to-stop search
+    List<PujRoute> findRoutesConnecting(String start, String destination) {
+        String startNorm = start.toLowerCase();
+        String destNorm = destination.toLowerCase();
+
+        return MockPujData.PUJS.stream()
+                .filter(route -> {
+                    int indexStart = indexOfContains(route.getStops(), startNorm);
+                    int indexDest = indexOfContains(route.getStops(), destNorm);
+                    // both stops must exist, and they must be different stops
+                    return indexStart != -1 && indexDest != -1 && indexStart != indexDest;
+                })
+                .toList();
+    }
+
+    private int indexOfContains(List<String> stops, String needle) {
+        for (int i = 0; i < stops.size(); i++) {
+            if (stops.get(i).toLowerCase().contains(needle)) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

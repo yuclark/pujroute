@@ -1,7 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchPujs } from "../shared/api/puj";
-import { addRecentRoute, getFavoriteCodes, getRecentRoutes, toggleFavoriteCode } from "../shared/lib/routeStorage";
+import {
+  addRecentRoute,
+  getFavoriteCodes,
+  getRecentRoutes,
+  toggleFavoriteCode,
+} from "../shared/lib/routeStorage";
 import { useAuth } from "../shared/context/AuthContext";
 
 type PujRoute = {
@@ -30,7 +35,10 @@ export function PujListPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const { logout } = useAuth();
-  const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
+  const searchParams = useMemo(
+    () => new URLSearchParams(location.search),
+    [location.search]
+  );
   const queryView = (searchParams.get("view") as ViewFilter) || "all";
 
   const [view, setView] = useState<ViewFilter>(queryView);
@@ -67,7 +75,9 @@ export function PujListPage() {
     }
 
     load();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [query]);
 
   const allStops = useMemo(() => {
@@ -82,23 +92,30 @@ export function PujListPage() {
   );
 
   const visibleRoutes = useMemo(() => {
-    let list = view === "favorites" ? favoriteRoutes : view === "recent" ? recentRoutes : routes;
+    let list =
+      view === "favorites"
+        ? favoriteRoutes
+        : view === "recent"
+        ? recentRoutes
+        : routes;
     if (query.trim()) {
       const q = query.toLowerCase();
-      list = list.filter((route) =>
-        route.code.toLowerCase().includes(q) ||
-        route.origin.toLowerCase().includes(q) ||
-        route.destination.toLowerCase().includes(q) ||
-        (route.otherRoutes?.toLowerCase().includes(q) ?? false) ||
-        (route.stops?.some((stop) => stop.toLowerCase().includes(q)) ?? false)
+      list = list.filter(
+        (route) =>
+          route.code.toLowerCase().includes(q) ||
+          route.origin.toLowerCase().includes(q) ||
+          route.destination.toLowerCase().includes(q) ||
+          (route.otherRoutes?.toLowerCase().includes(q) ?? false) ||
+          (route.stops?.some((stop) => stop.toLowerCase().includes(q)) ?? false)
       );
     }
     return list;
   }, [view, routes, favoriteRoutes, recentRoutes, query]);
 
-  const activeLabel = view === "favorites"
-    ? "Favorites"
-    : view === "recent"
+  const activeLabel =
+    view === "favorites"
+      ? "Favorites"
+      : view === "recent"
       ? "Recently Viewed"
       : "All Routes";
 
@@ -106,10 +123,15 @@ export function PujListPage() {
     setFavoriteCodes(toggleFavoriteCode(code));
   }
 
+  // MODIFIED: pass route in location.state so PujDetailPage can render static view
   function handleOpenRoute(route: PujRoute) {
     addRecentRoute(route);
-    setRecentRoutes((current) => [route, ...current.filter((item) => item.code !== route.code)].slice(0, 6));
-    navigate(`/pujs/${route.code}`);
+    setRecentRoutes((current) =>
+      [route, ...current.filter((item) => item.code !== route.code)].slice(0, 6)
+    );
+    navigate(`/pujs/${route.code}`, {
+      state: { route }, // <-- key change
+    });
   }
 
   function handleSetView(newView: ViewFilter) {
@@ -118,7 +140,6 @@ export function PujListPage() {
 
   return (
     <div className="pl-page">
-
       {/* ── Navbar ── */}
       <nav className="pl-nav">
         <div className="pl-nav__inner">
@@ -127,10 +148,30 @@ export function PujListPage() {
             <span className="pl-nav__name">PUJ Route</span>
           </div>
           <div className="pl-nav__links">
-            <button className="pl-nav__link" onClick={() => navigate("/home")}>Home</button>
-            <button className="pl-nav__link pl-nav__link--active" onClick={() => navigate("/pujs")}>Routes</button>
-            <button className="pl-nav__link" onClick={() => navigate("/profile")}>Profile</button>
-            <button className="hp-nav__link" onClick={async () => { await logout(); navigate("/login"); }}>Logout</button>
+            <button className="pl-nav__link" onClick={() => navigate("/home")}>
+              Home
+            </button>
+            <button
+              className="pl-nav__link pl-nav__link--active"
+              onClick={() => navigate("/pujs")}
+            >
+              Routes
+            </button>
+            <button
+              className="pl-nav__link"
+              onClick={() => navigate("/profile")}
+            >
+              Profile
+            </button>
+            <button
+              className="hp-nav__link"
+              onClick={async () => {
+                await logout();
+                navigate("/login");
+              }}
+            >
+              Logout
+            </button>
           </div>
         </div>
       </nav>
@@ -142,12 +183,15 @@ export function PujListPage() {
             <span className="pl-banner__eyebrow">Cebu City Transit</span>
             <h1 className="pl-banner__title">PUJ Routes</h1>
             <p className="pl-banner__sub">
-              Find your jeepney route, save favorites, and revisit recently viewed trips.
+              Find your jeepney route, save favorites, and revisit recently
+              viewed trips.
             </p>
           </div>
           {!loading && !error && (
             <div className="pl-banner__stat">
-              <span className="pl-banner__stat-num">{visibleRoutes.length}</span>
+              <span className="pl-banner__stat-num">
+                {visibleRoutes.length}
+              </span>
               <span className="pl-banner__stat-label">{activeLabel}</span>
             </div>
           )}
@@ -155,12 +199,22 @@ export function PujListPage() {
 
         <div className="pl-banner__search-wrap">
           <div className="pl-search-wrap-col">
-
             {/* Text search */}
             <div className="pl-search">
               <svg className="pl-search__icon" viewBox="0 0 20 20" fill="none">
-                <circle cx="9" cy="9" r="6" stroke="currentColor" strokeWidth="2"/>
-                <path d="M13.5 13.5L17 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                <circle
+                  cx="9"
+                  cy="9"
+                  r="6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                <path
+                  d="M13.5 13.5L17 17"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
               </svg>
               <input
                 type="text"
@@ -170,7 +224,12 @@ export function PujListPage() {
                 onChange={(e) => setQuery(e.target.value)}
               />
               {query && (
-                <button className="pl-search__clear" onClick={() => setQuery("")}>✕</button>
+                <button
+                  className="pl-search__clear"
+                  onClick={() => setQuery("")}
+                >
+                  ✕
+                </button>
               )}
             </div>
 
@@ -182,10 +241,11 @@ export function PujListPage() {
             >
               <option value="">Filter by stopover location...</option>
               {allStops.map((stop) => (
-                <option key={stop} value={stop}>{stop}</option>
+                <option key={stop} value={stop}>
+                  {stop}
+                </option>
               ))}
             </select>
-
           </div>
         </div>
       </div>
@@ -194,21 +254,27 @@ export function PujListPage() {
       <div className="pl-tabs">
         <button
           type="button"
-          className={`pl-tabs__item${view === "all" ? " pl-tabs__item--active" : ""}`}
+          className={`pl-tabs__item${
+            view === "all" ? " pl-tabs__item--active" : ""
+          }`}
           onClick={() => handleSetView("all")}
         >
           All Routes
         </button>
         <button
           type="button"
-          className={`pl-tabs__item${view === "favorites" ? " pl-tabs__item--active" : ""}`}
+          className={`pl-tabs__item${
+            view === "favorites" ? " pl-tabs__item--active" : ""
+          }`}
           onClick={() => handleSetView("favorites")}
         >
           Favorites
         </button>
         <button
           type="button"
-          className={`pl-tabs__item${view === "recent" ? " pl-tabs__item--active" : ""}`}
+          className={`pl-tabs__item${
+            view === "recent" ? " pl-tabs__item--active" : ""
+          }`}
           onClick={() => handleSetView("recent")}
         >
           Recently Viewed
@@ -233,11 +299,16 @@ export function PujListPage() {
               {view === "favorites"
                 ? "No favorites yet. Tap the star icon on any route to save it here."
                 : view === "recent"
-                  ? "You haven't viewed any routes yet. Open a route to see it here."
-                  : `No routes found for "${query}".`}
+                ? "You haven't viewed any routes yet. Open a route to see it here."
+                : `No routes found for "${query}".`}
             </p>
             {view === "all" && (
-              <button className="pl-empty__btn" onClick={() => setQuery("")}>Clear search</button>
+              <button
+                className="pl-empty__btn"
+                onClick={() => setQuery("")}
+              >
+                Clear search
+              </button>
             )}
           </div>
         )}
@@ -264,12 +335,18 @@ export function PujListPage() {
                     <span className="pl-card__badge">{puj.code}</span>
                     <button
                       type="button"
-                      className={`pl-card__favorite${isFavorite ? " pl-card__favorite--active" : ""}`}
+                      className={`pl-card__favorite${
+                        isFavorite ? " pl-card__favorite--active" : ""
+                      }`}
                       onClick={(event) => {
                         event.stopPropagation();
                         handleToggleFavorite(puj.code);
                       }}
-                      aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                      aria-label={
+                        isFavorite
+                          ? "Remove from favorites"
+                          : "Add to favorites"
+                      }
                     >
                       {isFavorite ? "★" : "☆"}
                     </button>
@@ -278,9 +355,13 @@ export function PujListPage() {
                     <p className="pl-card__origin">{puj.origin}</p>
                     <div className="pl-card__arrow-down">
                       <svg viewBox="0 0 20 20" fill="none" width="16" height="16">
-                        <path d="M10 4v12M10 16l-4-4M10 16l4-4"
-                          stroke="currentColor" strokeWidth="1.8"
-                          strokeLinecap="round" strokeLinejoin="round"/>
+                        <path
+                          d="M10 4v12M10 16l-4-4M10 16l4-4"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
                       </svg>
                     </div>
                     <p className="pl-card__destination">{puj.destination}</p>
