@@ -12,6 +12,8 @@ import { logout as supabaseLogout } from "../api/auth";
 
 interface AuthContextType {
   user: AuthUser | null;
+  token: string | null;
+  setAuth: (token: string, user: AuthUser) => void;
   logout: () => Promise<void>;
   isAuthenticated: boolean;
 }
@@ -20,6 +22,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,10 +34,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (session?.user) {
         setUser({
           id: session.user.id,
+          name: session.user.user_metadata?.name ?? "",
           email: session.user.email ?? "",
         });
+
+        setToken(session.access_token);
       } else {
         setUser(null);
+        setToken(null);
       }
 
       setLoading(false);
@@ -48,10 +55,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (session?.user) {
         setUser({
           id: session.user.id,
+          name: session.user.user_metadata?.name ?? "",
           email: session.user.email ?? "",
         });
+
+        setToken(session.access_token);
       } else {
         setUser(null);
+        setToken(null);
       }
     });
 
@@ -60,9 +71,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  function setAuth(newToken: string, newUser: AuthUser) {
+    setToken(newToken);
+    setUser(newUser);
+  }
+
   async function logout() {
     await supabaseLogout();
+
     setUser(null);
+    setToken(null);
+
+    localStorage.clear();
+    sessionStorage.clear();
   }
 
   if (loading) {
@@ -73,6 +94,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider
       value={{
         user,
+        token,
+        setAuth,
         logout,
         isAuthenticated: !!user,
       }}
