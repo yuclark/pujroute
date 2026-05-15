@@ -401,7 +401,7 @@ export function PujDetailPage() {
                   <p className="puj-detail__section-text">
                     Jeepney route {route.code} from {route.origin} to{" "}
                     {route.destination}
-                    {route.via ? ` via ${route.via}` : ""}.
+                    {route.otherRoutes ? ` via ${route.otherRoutes}` : ""}.
                   </p>
 
                   <section className="puj-detail__summary">

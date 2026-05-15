@@ -113,7 +113,7 @@ export function ProfilePage() {
           <button className="hp-nav__link" onClick={async () => { await logout(); navigate("/login"); }}>Logout</button>
         </div>
       </div>
-    </nav>
+    </nav> 
   );
 
   if (loading) {

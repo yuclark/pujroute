@@ -796,7 +796,7 @@ public class MockPujData {
                                                 "Allure Hotel and Suites",
                                                 "Benedicto College",
                                                 "The Orchard Cebu Hotel and Suites",
-                                                "J Centre",
+                                                "SM JMall",
                                                 "Mandaue City",
                                                 "Andy Hotel",
                                                 "A Del Rosario Street",
@@ -1004,7 +1004,7 @@ public class MockPujData {
                                                 "Mandaue Coliseum",
                                                 "STI College",
                                                 "Savemore",
-                                                "J Centre",
+                                                "SM JMall",
                                                 "Mandaue City",
                                                 "Coca-Cola Bottlers Philippines Inc",
                                                 "Macro Tires Goodyear Autocare",
@@ -1022,7 +1022,7 @@ public class MockPujData {
                                                 "Cebu Technological University",
                                                 "P Burgos Street"),
                                 13.0,
-                                "Route from Mandaue and J Centre area through SM City Cebu and the port area to the Cathedral vicinity."));
+                                "Route from Mandaue and SM JMall area through SM City Cebu and the port area to the Cathedral vicinity."));
 
                 // 22A – Mandaue to Cathedral
                 PUJS.add(new PujRoute(
@@ -1111,7 +1111,7 @@ public class MockPujData {
                                                 "A Del Rosario Street",
                                                 "Colegio de la Inmaculada Concepcion Mandaue",
                                                 "Coca-Cola",
-                                                "Mandaue City J Centre",
+                                                "Mandaue City SM JMall",
                                                 "The Orchard Cebu Hotel and Suites",
                                                 "Benedicto College",
                                                 "Allure Hotel and Suites",
@@ -1310,11 +1310,11 @@ public class MockPujData {
                 // MI-04A – Mactan to Tamiya
                 PUJS.add(new PujRoute(
                                 "MI-04A",
-                                "J Centre",
+                                "SM JMall",
                                 "Tamiya Terminal",
-                                "J Centre, Mactan access, MEZ II",
+                                "SM JMall, Mactan access, MEZ II",
                                 Arrays.asList(
-                                                "J Centre",
+                                                "SM JMall",
                                                 "Savemore",
                                                 "STI College",
                                                 "Mandaue Coliseum",
@@ -1325,7 +1325,7 @@ public class MockPujData {
                                                 "Pueblo Verde Terminal",
                                                 "Tamiya Terminal"),
                                 13.0,
-                                "Route from J Centre Mall area to the Tamiya terminal via Mactan access road."));
+                                "Route from SM JMall area to the Tamiya terminal via Mactan access road."));
 
                 // MI-04B – Mactan to MEPZ2
                 PUJS.add(new PujRoute(

@@ -17,7 +17,6 @@ public class PujListController {
         this.pujListService = pujListService;
     }
 
-    // Existing: keyword search (code/origin/destination/stops)
     @GetMapping
     public Map<String, Object> getAll(@RequestParam(required = false) String search) {
         List<PujRoute> list = pujListService.getAll(search);
@@ -26,7 +25,6 @@ public class PujListController {
         return res;
     }
 
-    // New: find routes that can connect two stops (vice versa)
     @GetMapping("/connect")
     public Map<String, Object> connect(
             @RequestParam String start,

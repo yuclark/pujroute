@@ -5,6 +5,7 @@ export interface LoginRequest {
 
 export interface RegisterRequest {
   name: string;
+  studentId: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -12,7 +13,7 @@ export interface RegisterRequest {
 
 export interface AuthUser {
   id: string;
-  name: string;
+  name?: string;
   email: string;
 }
 
@@ -20,12 +21,3 @@ export interface AuthResponse {
   token: string;
   user: AuthUser;
 }
-
-export interface RegisterRequest {
-  name: string;
-  studentId: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
