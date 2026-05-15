@@ -1,44 +1,81 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
+
 import type { AuthUser } from "../types/auth";
+import { supabase } from "../lib/supabase";
 import { logout as supabaseLogout } from "../api/auth";
 
 interface AuthContextType {
   user: AuthUser | null;
-  token: string | null;
-  setAuth: (token: string, user: AuthUser) => void;
-  logout: () => void;
+  logout: () => Promise<void>;
   isAuthenticated: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [token, setToken] = useState<string | null>(
-    () => localStorage.getItem("token")
-  );
-  const [user, setUser] = useState<AuthUser | null>(() => {
-    const stored = localStorage.getItem("user");
-    return stored ? JSON.parse(stored) : null;
-  });
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  function setAuth(newToken: string, newUser: AuthUser) {
-    localStorage.setItem("token", newToken);
-    localStorage.setItem("user", JSON.stringify(newUser));
-    setToken(newToken);
-    setUser(newUser);
-  }
+  useEffect(() => {
+    async function loadSession() {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (session?.user) {
+        setUser({
+          id: session.user.id,
+          email: session.user.email ?? "",
+        });
+      } else {
+        setUser(null);
+      }
+
+      setLoading(false);
+    }
+
+    loadSession();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUser({
+          id: session.user.id,
+          email: session.user.email ?? "",
+        });
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   async function logout() {
     await supabaseLogout();
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setToken(null);
     setUser(null);
+  }
+
+  if (loading) {
+    return null;
   }
 
   return (
     <AuthContext.Provider
-      value={{ user, token, setAuth, logout, isAuthenticated: !!token }}
+      value={{
+        user,
+        logout,
+        isAuthenticated: !!user,
+      }}
     >
       {children}
     </AuthContext.Provider>
@@ -47,6 +84,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth() {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
+
+  if (!ctx) {
+    throw new Error("useAuth must be used within AuthProvider");
+  }
+
   return ctx;
 }
